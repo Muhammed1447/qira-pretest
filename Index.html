@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> اختبار مادة القراءة </title>
+  <style>
+    :root {
+      --primary: #1b4332;
+      --primary-light: #2d6a4f;
+      --accent: #d4af37;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #212529;
+      --success: #2e7d32;
+      --success-bg: #e8f5e9;
+      --error: #c62828;
+      --error-bg: #ffebee;
+      --border: #e0e0e0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .developer-tag {
+      margin-top: 15px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      border: 1px solid var(--accent);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .lesson-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-right: 6px solid var(--primary);
+    }
+
+    .lesson-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--bg);
+    }
+
+    .question-block {
+      margin-bottom: 25px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .question-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      background: #f1f3f5;
+      border: 1px solid var(--border);
+      padding: 12px 18px;
+      border-radius: 6px;
+      text-align: right;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .option-btn:hover:not([disabled]) {
+      background: #e9ecef;
+      border-color: #ced4da;
+    }
+
+    .option-btn.correct {
+      background-color: var(--success-bg) !important;
+      color: var(--success) !important;
+      border-color: var(--success) !important;
+      font-weight: bold;
+    }
+
+    .option-btn.wrong {
+      background-color: var(--error-bg) !important;
+      color: var(--error) !important;
+      border-color: var(--error) !important;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .feedback.correct {
+      display: block;
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+
+    .feedback.wrong {
+      display: block;
+      background: var(--error-bg);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+
+    .submit-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      font-size: 1.2rem;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    #score-board {
+      display: none;
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    #score-board h2 {
+      color: var(--accent);
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    #score-board p {
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>مادة القراءة - أسئلة التدريبات الشاملة</h1>
+    
+    <div class="developer-tag">   
+
+تم تطوير الموقع الإلكتروني بواسطة محمد الفريد (محمد كفو) 
+<br>
+  المستشار التقني بوزارة الحج والعمرة.
+</div>
+  </header>
+
+  <div class="container" id="quiz-container">
+    <!-- Quiz Content Loaded Dynamic / Static -->
+  </div>
+
+  <div class="submit-container">
+    <button class="btn-submit" onclick="calculateScore()">عرض النتيجة النهائية</button>
+  </div>
+
+  <div class="container">
+    <div id="score-board">
+      <h2>النتيجة النهائية</h2>
+      <p id="score-text"></p>
+    </div>
+  </div>
+
+  <script>
+    const questionsData = [
+      {
+        lesson: "الدرس الأول: مدن إسلامية (بغداد)",
+        questions: [
+          {
+            id: "b1",
+            type: "mcq",
+            question: "مَنْ أَنْشَأَ مَدِينَةَ بَغْدَادَ؟",
+            options: ["أبو جعفر المنصور", "عمر بن الخطاب", "صلاح الدين الأيوبي", "عثمان بن عفان"],
+            answer: 0,
+            reference: "أنشأ أبو جعفر المنصور مدينة بغداد سنة 154 هـ."
+          },
+          {
+            id: "b2",
+            type: "mcq",
+            question: "مَاذَا حَدَثَ فِي العِرَاقِ بَعْدَ اكْتِشَافِ النَّفْطِ؟",
+            options: ["تدمير بغداد", "نهضة كبيرة في مختلف جوانب الحياة", "احتلال بغداد", "قلة السكان"],
+            answer: 1,
+            reference: "أدى اكتشاف النفط إلى نهضة كبيرة في مدينة بغداد في مختلف جوانب الحياة."
+          },
+          {
+            id: "b3",
+            type: "mcq",
+            question: "اذْكُرْ وَاحِدًا مِنَ الآثَارِ الإِسْلَامِيَّةِ فِي بَغْدَادَ:",
+            options: ["جامع أيا صوفيا", "سور بغداد (أو دار الخلافة / المدرسة المستنصرية)", "جامع السلطان أحمد", "أسوار القسطنطينية"],
+            answer: 1,
+            reference: "من آثارها: سور بغداد، ودار الخلافة، والمدرسة المستنصرية، ومسجد الإمام أبي حنيفة."
+          },
+          {
+            id: "b4",
+            type: "mcq",
+            question: "مَا الدَّوْلَةُ الَّتِي عَاصِمَتُهَا بَغْدَادُ حَالِيًّا؟",
+            options: ["تركيا", "فلسطين", "العراق", "السعودية"],
+            answer: 2,
+            reference: "بغداد عاصمة العراق حالياً."
+          },
+          {
+            id: "b5",
+            type: "tf",
+            question: "اشْتُهِرَتْ بَغْدَادُ بِكَثْرَةِ الشُّعَرَاءِ وَالعُلَمَاءِ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، اشتهرت لكثرة من سكنها من العلماء والشعراء."
+          },
+          {
+            id: "b6",
+            type: "mcq",
+            question: "صل (اختر السلسلة الصحيحة): تدمير بغداد كان بسبب...",
+            options: ["غزو التتار عام 656 هـ", "اكتشاف النفط", "المدرسة المستنصرية", "أحمد بن حنبل"],
+            answer: 0,
+            reference: "تم تدميرها في غزو التتار عام 656 هـ."
+          },
+          {
+            id: "b7",
+            type: "mcq",
+            question: "يقع جزء (الكرخ) من بغداد على الجانب...",
+            options: ["الشرقي لنهر دجلة", "الغربي لنهر دجلة", "الشمالي", "الجنوبي"],
+            answer: 1,
+            reference: "الكرخ يقع على الجانب الغربي لنهر دجلة."
+          }
+        ]
+      },
+      {
+        lesson: "الدرس الثاني: مدن إسلامية (إسطنبول)",
+        questions: [
+          {
+            id: "i1",
+            type: "mcq",
+            question: "مَاذَا يُسَمَّى جَامِعُ السُّلْطَانِ أَحْمَدَ؟",
+            options: ["المسجد الأقصى", "جامع محمد الفاتح", "المسجد الأزرق", "جامع أيا صوفيا"],
+            answer: 2,
+            reference: "جامع السلطان أحمد يُعرف بـ (المسجد الأزرق)."
+          },
+          {
+            id: "i2",
+            type: "mcq",
+            question: "مَا الاسْمُ القَدِيمُ لإِسْطَنْبُولَ؟",
+            options: ["بغداد", "إيلياء", "القسطنطينية", "الكرخ"],
+            answer: 2,
+            reference: "سميت قديماً القسطنطينية."
+          },
+          {
+            id: "i3",
+            type: "mcq",
+            question: "لِمَاذَا يَزُورُ السُّيَّاحُ إِسْطَنْبُولَ؟",
+            options: ["لمشاهدة مساجدها ومتاحفها معالمها التاريخية", "لشراء النفط فقط", "لزيارة نهر دجلة", "للسكن في الكرخ"],
+            answer: 0,
+            reference: "يزورها السياح لمشاهدة مساجدها ومتاحفها ومعالمها."
+          },
+          {
+            id: "i4",
+            type: "mcq",
+            question: "اذْكُرْ بَعْضَ مَا تَحْتَوِيهِ المَتَاحِفُ فِي إِسْطَنْبُولَ:",
+            options: ["النفط والتمور", "المخطوطات، وآثار الخلافة، والأسلحة الحربية، والملابس القديمة", "السفن التجارية الفضية", "السيارات النارية"],
+            answer: 1,
+            reference: "تعرض المتاحف المخطوطات ومعالم الخلافة والأسلحة الحربية والملابس القديمة."
+          },
+          {
+            id: "i5",
+            type: "tf",
+            question: "إِسْطَنْبُولُ أَكْبَرُ مُدُنِ تُرْكِيَا.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، إسطنبول أكبر مدن تركيا."
+          },
+          {
+            id: "i6",
+            type: "tf",
+            question: "إِسْطَنْبُولُ مَرْكَزٌ تِجَارِيٌّ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، إسطنبول مركز للتجارة والصناعة والثقافة."
+          },
+          {
+            id: "i7",
+            type: "tf",
+            question: "المَتَاحِفُ الإِسْلَامِيَّةُ نَادِرَةٌ فِي تُرْكِيَا.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (المتاحف والمعالم الإسلامية كثيرة وليست نادرة)."
+          },
+          {
+            id: "i8",
+            type: "tf",
+            question: "كَانَتْ إِسْطَنْبُولُ عَاصِمَةَ الخِلَافَةِ الأُمَوِيَّةِ.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (كانت عاصمة الإمبراطورية الرومانية ثم البيزنطية ثم الخلافة العثمانية)."
+          },
+          {
+            id: "i9",
+            type: "tf",
+            question: "تَقَعُ إِسْطَنْبُولُ فِي قَارَّتَيْ إِفْرِيقْيَا وَآسْيَا.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (تقع في قارتي آسيا وأوروبا)."
+          }
+        ]
+      },
+      {
+        lesson: "الدرس الثالث: بيوت الله (المسجد الأقصى)",
+        questions: [
+          {
+            id: "a1",
+            type: "mcq",
+            question: "مَا عَاصِمَةُ فَلَسْطِينَ؟",
+            options: ["بغداد", "إسطنبول", "القدس", "عمان"],
+            answer: 2,
+            reference: "القدس عاصمة دولة فلسطين."
+          },
+          {
+            id: "a2",
+            type: "mcq",
+            question: "كَيْفَ فَتَحَ المُسْلِمُونَ القُدْسَ؟",
+            options: ["عن طريق الحرب", "صلحاً من غير قتال", "بالأسلحة النارية", "بالتجارة"],
+            answer: 1,
+            reference: "فتح المسلمون القدس صلحاً من غير قتال."
+          },
+          {
+            id: "a3",
+            type: "mcq",
+            question: "إِلَى أَيْنَ أُسْرِيَ بِالرَّسُولِ ﷺ؟",
+            options: ["إلى مسجد قباء", "إلى المسجد الأقصى", "إلى بغداد", "إلى إسطنبول"],
+            answer: 1,
+            reference: "أُسري بالنبي ﷺ من المسجد الحرام إلى المسجد الأقصى."
+          },
+          {
+            id: "a4",
+            type: "mcq",
+            question: "مَا مَعْنَى أُولَى القِبْلَتَيْنِ؟",
+            options: ["المسجد الثاني في العالم", "قبلة المسلمين الأولى التي كانوا يتجهون إليها في الصلاة", "أكبر المساجد", "ثالث الحرمين"],
+            answer: 1,
+            reference: "أولى القبلتين تعني القبلة الأولى التي توجه إليها المسلمون قبل الكعبة المشرفة."
+          },
+          {
+            id: "a5",
+            type: "mcq",
+            question: "مَا مَسْجِدُ إِيلِيَاءَ؟",
+            options: ["مسجد قباء", "جامع السلطان أحمد", "اسم من أسماء المسجد الأقصى / القدس", "المسجد الحرام"],
+            answer: 2,
+            reference: "مسجد إيلياء ورد في الحديث والمراد به بيت المقدس / المسجد الأقصى."
+          },
+          {
+            id: "a6",
+            type: "mcq",
+            question: "كَمْ تَعْدِلُ الصَّلَاةُ فِي المَسْجِدِ الأَقْصَى؟",
+            options: ["100 صلاة", "500 صلاة", "1000 صلاة", "5000 صلاة"],
+            answer: 1,
+            reference: "الصلاة فيه تعدل خمسمائة (500) صلاة في غيره."
+          },
+          {
+            id: "a7",
+            type: "mcq",
+            question: "المَسْجِدُ الأَقْصَى عِبَارَةٌ عَمَّا يَضُمُّهُ...",
+            options: ["السور القديم (ومساحته 144 ألف متر مربع)", "الشارع الرئيسي", "سوق الرشيد", "قارة أوروبا"],
+            answer: 0,
+            reference: "المسجد الأقصى عبارة عن كل ما يضمه السور القديم."
+          },
+          {
+            id: "a8",
+            type: "mcq",
+            question: "فُتِحَتِ القُدْسُ صُلْحاً فِي عَهْدِ الخَلِيفَةِ...",
+            options: ["أبي بكر الصديق", "عمر بن الخطاب رضي عنه", "عثمان بن عفان", "علي بن أبي طالب"],
+            answer: 1,
+            reference: "في عهد الخليفة الراشد عمر بن الخطاب سنة 15 هـ."
+          },
+          {
+            id: "a9",
+            type: "mcq",
+            question: "اسْتَعَادَ صَلَاحُ الدِّينِ القُدْسَ مِنَ...",
+            options: ["التتار", "الصليبيين (سنة 583 هـ)", "الرومان", "البيزنطيين"],
+            answer: 1,
+            reference: "استعادها المسلمون على يد صلاح الدين الأيوبي من الصليبيين."
+          },
+          {
+            id: "a10",
+            type: "mcq",
+            question: "مَنْ يَحْتَلُّ فَلَسْطِينَ الآنَ هُمُ...",
+            options: ["الصليبيون", "التتار", "اليهود", "الرومان"],
+            answer: 2,
+            reference: "احتلتها الدولة اليهودية سنة 1387 هـ وما زالت تحت الاحتلال اليهودي."
+          }
+        ]
+      },
+      {
+        lesson: "الدرس الرابع: بيوت الله (مسجد قباء)",
+        questions: [
+          {
+            id: "q1",
+            type: "mcq",
+            question: "أَيْنَ بُنِيَ مَسْجِدُ قُبَاءٍ؟ / فِي أَيِّ جِهَةٍ مِنَ المَدِينَةِ يَقَعُ؟",
+            options: ["في الجهة الشمالية للمدينة", "في الجهة الجنوبية للمدينة المنورة", "في مكة المكرمة", "في القدس"],
+            answer: 1,
+            reference: "يقع مسجد قباء في الجهة الجنوبية للمدينة المنورة."
+          },
+          {
+            id: "q2",
+            type: "mcq",
+            question: "مَا أَجْرُ مَنْ صَلَّى فِي مَسْجِدِ قُبَاءِ؟",
+            options: ["كأجر حجة", "كأجر عمرة", "كأجر 500 صلاة", "كأجر 1000 صلاة"],
+            answer: 1,
+            reference: "من تطهر في بيته ثم أتى مسجد قباء فصلّى فيه كان له كأجر عمرة."
+          },
+          {
+            id: "q3",
+            type: "mcq",
+            question: "مَتَى بُنِيَ مَسْجِدُ قُبَاءٍ؟",
+            options: ["عند فتح مكة", "عند قدوم النبي ﷺ مهاجراً إلى المدينة", "بعد غزوة بدر", "في عهد التتار"],
+            answer: 1,
+            reference: "بناه النبي ﷺ عند قدومه مهاجراً إلى المدينة."
+          },
+          {
+            id: "a4_q",
+            type: "mcq",
+            question: "بِمَاذَا وَصَفَ اللهُ مَنْ فِيهِ مِنَ الرِّجَالِ؟",
+            options: ["رجال لا تلهيهم تجارة", "رجال يحبون أن يتطهروا", "رجال يقاتلون في سبيل الله", "رجال يتاجرون بالذهب"],
+            answer: 1,
+            reference: "قال تعالى: (فيه رجال يحبون أن يتطهروا والله يحب المطهرين)."
+          },
+          {
+            id: "q5",
+            type: "mcq",
+            question: "فِي أَيِّ عَهْدٍ حَدَثَتِ التَّوْسِعَةُ الأَخِيرَةُ لِلْمَسْجِدِ المَذْكُورَةِ فِي النَّصِّ؟",
+            options: ["عهد الدولة العباسية", "عهد الدولة السعودية", "عهد الدولة العثمانية", "عهد الفاطميين"],
+            answer: 1,
+            reference: "في التوسعة الأخيرة في عهد الدولة السعودية تجاوزت مساحته 135 ألف متر مربع."
+          },
+          {
+            id: "q6",
+            type: "mcq",
+            question: "كم عدد القباب في مسجد قباء كما جاء في النص؟",
+            options: ["4 قباب", "62 قبة", "135 قبة", "20 قبة"],
+            answer: 1,
+            reference: "له أربع منارات، وسقفه على شكل سلسلة من القباب عددها 62 قبة."
+          }
+        ]
+      },
+      {
+        lesson: "الدرس الخامس: المهن والحرف (التجارة)",
+        questions: [
+          {
+            id: "t1",
+            type: "tf",
+            question: "التَّجَارَةُ حِرْفَةٌ وَعِلْمٌ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، التجارة اليوم ليست مهنة فقط بل أصبحت علماً يُدرس."
+          },
+          {
+            id: "t2",
+            type: "tf",
+            question: "عَمِلَ الرَّسُولُ ﷺ بِالتَّجَارَةِ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، أتجر النبي ﷺ في مال خديجة رضي الله عنها قبل البعثة."
+          },
+          {
+            id: "t3",
+            type: "tf",
+            question: "التَّجَارَةُ مِهْنَةٌ حَدِيثَةٌ.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (التجارة قديمة واستطاع الإنسان من خلالها توفير احتياجاته)."
+          },
+          {
+            id: "t4",
+            type: "tf",
+            question: "عَرَفَ النَّاسُ العُمُلَاتِ قَبْلَ الذَّهَبِ.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (كانت تقوم على مبادلة السلع، ثم بمقابل من الذهب والفضة، ثم ظهرت العملات النقدية)."
+          },
+          {
+            id: "t5",
+            type: "tf",
+            question: "القَانُونُ يَحْمِي التَّاجِرَ لا المُسْتَهْلِكَ.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (وضعت القوانين لحماية المستهلك ومنع الغش والاحتكار)."
+          },
+          {
+            id: "t6",
+            type: "tf",
+            question: "تَطَوَّرَتِ التَّجَارَةُ كثيرا فِي العَصْرِ الحَدِيثِ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، تطورت بنشوء التجارة الإلكترونية وتبادل السلع عبر الشابكة والبطاقات الائتمانية."
+          },
+          {
+            id: "t7",
+            type: "mcq",
+            question: "مَا الأشْيَاءُ الَّتِي يَمْنَعُهَا القَانُونُ التَّجَارِيُّ؟",
+            options: ["البيع والشراء", "الغش والاحتكار وتقاليد العلامات التجارية", "العملات النقدية", "خدمات ما بعد البيع"],
+            answer: 1,
+            reference: "وضع القانون لمنع الغش والاحتكار وتقليد العلامات التجارية."
+          },
+          {
+            id: "t8",
+            type: "mcq",
+            question: "مَا أَهَمُّ الصَّفَاتِ الَّتِي يُرِيدُهَا الإِسْلَامُ مِنَ التَّاجِرِ؟",
+            options: ["أن يكون أميناً صادقاً", "أن يحتكر السلع", "أن يقلد العلامات التجارية", "أن يزيد الأسعار"],
+            answer: 0,
+            reference: "كان النبي ﷺ مثالاً للتاجر الأمين الصادق."
+          }
+        ]
+      },
+      {
+        lesson: "الدرس السادس: المهن والحرف (الشرطة والإذاعة)",
+        questions: [
+          {
+            id: "p1",
+            type: "tf",
+            question: "يَعْمَلُ رِجَالُ الشَّرْطَةِ لَيْلًا فَقَطْ.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (يجوب رجال الشرطة شوارع المدينة ليلاً ونهاراً)."
+          },
+          {
+            id: "p2",
+            type: "tf",
+            question: "كَانَ عُمَرُ رَضِيَ اللَّهُ عَنْهُ يَرْعَى الأَمْنَ فِي المَدِينَةِ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، كان عمر بن الخطاب يمارس دور الشرطة بنفسه فيخرج ليلاً يتفقد أحوال الناس."
+          },
+          {
+            id: "p3",
+            type: "tf",
+            question: "عَمَلُ رِجَالِ الشَّرْطَةِ سَهْلٌ.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (عملهم يحتاج جهوداً كبيرة وتعاون أفراد المجتمع معهم)."
+          },
+          {
+            id: "p4",
+            type: "tf",
+            question: "تَسْتَخْدِمُ الشَّرْطَةُ القَوَارِبَ وَالطَّائِرَاتِ العَمُودِيَّةَ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، تستخدم السيارات والدراجات والخيل والقوارب والطائرات العمودية."
+          },
+          {
+            id: "p5",
+            type: "tf",
+            question: "يَجُبُ التَّعَاوُنُ مَعَ رِجَالِ الشَّرْطَةِ.",
+            options: ["صحيح", "خطأ"],
+            answer: 0,
+            reference: "صحيح، لا يمكن أن يتحقق الأمن ما لم يتعاون أفراد المجتمع مع رجال الشرطة."
+          },
+          {
+            id: "p6",
+            type: "tf",
+            question: "عَرَفَ النَّاسُ نِظَامَ الشَّرْطَةِ حَدِيثًا.",
+            options: ["صحيح", "خطأ"],
+            answer: 1,
+            reference: "خطأ (ظهر نظام الشرطة قديماً)."
+          },
+          {
+            id: "p7",
+            type: "mcq",
+            question: "مَنْ أَوَّلُ مَنْ أَحْدَثَ مَنْصِبَ (صَاحِبِ الشَّرْطَةِ) فِي الدَّوْلَةِ الإِسْلَامِيَّةِ؟",
+            options: ["عمر بن الخطاب", "عثمان بن عفان رضي الله عنه", "أبو جعفر المنصور", "صلاح الدين الأيوبي"],
+            answer: 1,
+            reference: "الخليفة الراشد عثمان بن عفان رضي الله عنه كان أول من أحدث منصب صاحب الشرطة."
+          },
+          {
+            id: "rad1",
+            type: "mcq",
+            question: "مَنِ اخْتَرَعَ المِذْيَاعَ؟",
+            options: ["ماركوني (المخترع الإيطالي)", "أبو جعفر المنصور", "أحمد بن حنبل", "الخطيب البغدادي"],
+            answer: 0,
+            reference: "اخترع المذياع في أواخر القرن 19م على يد المخترع الإيطالي (ماركوني)."
+          },
+          {
+            id: "rad2",
+            type: "mcq",
+            question: "يَتَكَوَّنُ الفَرِيقُ الإِعْلَامِيُّ فِي الإِذَاعَةِ مِنْ:",
+            options: ["مهندس الصوت والبث", "المذيع والمُعِد والمُخْرِج", "رجال الشرطة", "العلماء والشعراء"],
+            answer: 1,
+            reference: "الفريق الإعلامي يتكون من: المذيع، والمعد، والمخرج."
+          },
+          {
+            id: "rad3",
+            type: "mcq",
+            question: "مَا أَكْثَرُ الإِذَاعَاتِ تَأْثِيرًا؟",
+            options: ["إذاعات الأخبار", "إذاعات القرآن الكريم", "إذاعات الإعلانات", "إذاعات الرياضة"],
+            answer: 1,
+            reference: "من أكثرها تأثيراً: إذاعات القرآن الكريم."
+          }
+        ]
+      }
+    ];
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+
+      questionsData.forEach((lessonBlock, lIndex) => {
+        const card = document.createElement('div');
+        card.className = 'lesson-card';
+
+        const title = document.createElement('h2');
+        title.className = 'lesson-title';
+        title.innerText = lessonBlock.lesson;
+        card.appendChild(title);
+
+        lessonBlock.questions.forEach((q, qIndex) => {
+          const qBlock = document.createElement('div');
+          qBlock.className = 'question-block';
+          qBlock.id = `qblock-${q.id}`;
+
+          const qTitle = document.createElement('div');
+          qTitle.className = 'question-title';
+          qTitle.innerText = `${qIndex + 1}. ${q.question}`;
+          qBlock.appendChild(qTitle);
+
+          const optsContainer = document.createElement('div');
+          optsContainer.className = 'options';
+
+          q.options.forEach((optText, oIndex) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = optText;
+            btn.onclick = () => checkAnswer(q, oIndex, btn, qBlock);
+            optsContainer.appendChild(btn);
+          });
+
+          qBlock.appendChild(optsContainer);
+
+          const feedback = document.createElement('div');
+          feedback.className = 'feedback';
+          feedback.id = `fb-${q.id}`;
+          qBlock.appendChild(feedback);
+
+          card.appendChild(qBlock);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    let userAnswers = {};
+
+    function checkAnswer(qObj, selectedIdx, btnElement, blockElement) {
+      if (userAnswers[qObj.id] !== undefined) return; // Prevent changing choice
+
+      userAnswers[qObj.id] = selectedIdx;
+      const allBtns = blockElement.querySelectorAll('.option-btn');
+      const feedback = blockElement.querySelector('.feedback');
+
+      allBtns.forEach(btn => btn.disabled = true);
+
+      if (selectedIdx === qObj.answer) {
+        btnElement.classList.add('correct');
+        feedback.className = 'feedback correct';
+        feedback.innerText = '✓ إجابة صحيحة! المصدر من النص: ' + qObj.reference;
+      } else {
+        btnElement.classList.add('wrong');
+        allBtns[qObj.answer].classList.add('correct');
+        feedback.className = 'feedback wrong';
+        feedback.innerText = '✕ إجابة خاطئة. الإجابة الصحيحة هي: (' + qObj.options[qObj.answer] + ') — النص: ' + qObj.reference;
+      }
+    }
+
+    function calculateScore() {
+      let totalQuestions = 0;
+      let correctAnswers = 0;
+
+      questionsData.forEach(l => {
+        l.questions.forEach(q => {
+          totalQuestions++;
+          if (userAnswers[q.id] === q.answer) {
+            correctAnswers++;
+          }
+        });
+      });
+
+      const board = document.getElementById('score-board');
+      const scoreText = document.getElementById('score-text');
+      
+      board.style.display = 'block';
+      scoreText.innerText = `حصلت على ${correctAnswers} من إجمالي ${totalQuestions} سؤالاً. (${Math.round((correctAnswers/totalQuestions)*100)}%)`;
+      board.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize Quiz on load
+    window.onload = renderQuiz;
+  </script>
+</body>
+</html>
+
